@@ -1,2 +1,9 @@
-﻿Playwright/
+Playwright/
+node_modules/
+dist/
+braiser-data/
+.braiser-electron-user-data/
+.env
+.env.*
+.braiser-dev-run.log
 

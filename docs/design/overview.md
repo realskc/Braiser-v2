@@ -1,60 +1,51 @@
-﻿# Braiser v0.1 概览
+﻿# Braiser v0.1 总览
 
-## 项目定位
+## 产品方向
 
-v0.1 的目标是实现本地 App 和 Chrome 浏览器插件，让用户可以用自然语言描述网页任务，由 LLM 生成 playwright-like 脚本，并在当前真实 Chrome 页面中执行。
+v0.1 逐步搭出本地应用和 Chrome Extension，让用户可以用自然语言描述网页任务。v0.1 的长期目标流程是：
 
 ```text
 自然语言任务
--> LLM 生成 playwright-like 脚本
--> 本地 App 执行脚本
--> Chrome 插件操作真实页面
--> 保存基础任务日志和最终脚本
+-> LLM 生成 playwright-like script
+-> 本地应用执行脚本
+-> Chrome Extension 操作真实页面
+-> 本地应用保存基础任务日志和最终脚本
 ```
 
-## v0.1 范围
+## 里程碑
 
-```text
-本地 App（Windows） + Chrome 浏览器插件
-```
+- [v0.1.0：本地应用 + 普通 LLM QA](../v0.1/v0.1.0.md)
+- v0.1.1：脚本生成和浏览器执行
 
-架构图和完整执行流见 [架构与执行流](./architecture-and-flow.md)。
+v0.1.0 先实现最小本地 QA 闭环，不连接浏览器，也不生成脚本。v0.1.1 再加入 Chrome Extension、页面 snapshot、script 生成和浏览器动作执行。
 
-v0.1.0：Electron App + LLM 任务，不接入浏览器。
+## 文档索引
 
-v0.1.1：加入 Playwright Extension，接入用户浏览器，让 LLM 可以通过编写 playwright 脚本操作浏览器。
+### 版本文档
 
-## 文档组织
+- [v0.1.0](../v0.1/v0.1.0.md)：已实现的本地 QA 闭环、运行方式、配置、存储和验收标准。
 
-建议按下面顺序阅读：
+### 实现说明
 
-### 总体设计
+- [本地应用实现说明](../implement/local-app.md)：包结构、IPC/API 边界、Electron 启动坑、DeepSeek thinking mode、存储和安全边界。
 
-- [架构与执行流](./architecture-and-flow.md)：说明 v0.1 的组件关系和一次任务如何从本地 App 落到浏览器页面。
-- [技术栈与存储](./tech-stack-and-storage.md)：说明 monorepo、Electron、Chrome MV3、本地通信和文件存储方向。
+### 设计文档
 
-### 本地 App
+- [架构与流程](./architecture-and-flow.md)：组件关系和目标 v0.1 任务流程。
+- [技术栈与存储](./tech-stack-and-storage.md)：monorepo、Electron、Chrome MV3、本地通信和文件存储方向。
 
-- [Braiser Local App 设计](./local-app/local-app.md)：说明本地 App 的顶层模块和职责边界。
-- [Task Agent 设计](./local-app/task-agent.md)：说明一次任务如何被编排、生成脚本并交给 Script Runtime 执行。
-- [任务日志与脚本留存](./local-app/runtrace.md)：说明 v0.1 需要保存哪些基础日志和脚本产物。
+### 本地应用
+
+- [Braiser 本地应用设计](./local-app/local-app.md)：本地应用顶层模块和职责边界。
+- [Task Agent 设计](./local-app/task-agent.md)：任务编排和未来脚本生成路径。
+- [Run Trace 与脚本留存](./local-app/runtrace.md)：v0.1 基础日志和脚本产物。
 
 ### 浏览器侧
 
-- [Chrome Extension 设计](./browser/chrome-extension.md)：说明插件作为隐式执行层如何连接页面和本地 App。
-- [页面快照与浏览器动作协议](./browser/page-snapshot-and-browser-protocol.md)：说明页面快照和浏览器动作命令的设计方向。
-- [Playwright-style API 与任务脚本](./browser/playwright-api-and-task-scripts.md)：说明 AI 脚本可使用的浏览器语义能力和脚本约束。
+- [Chrome Extension 设计](./browser/chrome-extension.md)：extension 作为隐式浏览器执行层。
+- [页面 Snapshot 与浏览器协议](./browser/page-snapshot-and-browser-protocol.md)：页面 snapshot 和浏览器命令。
+- [Playwright-style API 与任务脚本](./browser/playwright-api-and-task-scripts.md)：浏览器语义 API 和脚本约束。
 
 ### 后续版本
 
-Agent Loop、Skill、Snapshot 沉淀等后续能力见 [v0.2](./v0.2/overview.md)。
-
-## 开发顺序
-
-v0.1 先打通最小执行闭环：插件通信与页面快照、Script Runtime 基础动作、脚本生成与执行、基础任务日志和最终脚本保存。
-
-## 第一版成功标准
-
-用户能在当前已登录的 Chrome 页面里提出任务；Braiser 能生成并执行脚本，完成页面动作，并保存基础任务日志和最终脚本。
-
-
+Agent Loop、Skill 和 Snapshot 持久化放在 [v0.2](./v0.2/overview.md) 跟踪。

@@ -1,0 +1,18 @@
+{
+  "name": "braiser-v2",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build -w @braiser/llm && npm run build -w @braiser/storage && npm run build -w @braiser/local-app",
+    "dev": "npm run dev -w @braiser/local-app",
+    "typecheck": "npm run typecheck -w @braiser/llm && npm run typecheck -w @braiser/storage && npm run typecheck -w @braiser/local-app"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0"
+  }
+}
